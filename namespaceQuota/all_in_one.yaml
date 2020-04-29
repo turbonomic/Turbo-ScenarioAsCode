@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quotatest
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quotatest
+  namespace: quotatest
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 100Mi
+    limits.cpu: "90m"
+    limits.memory: 150Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpug-30
+  namespace: quotatest
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cpu-30-group-child
+  template:
+    metadata:
+      name: cpu-30-group
+      labels:
+        app: cpu-30-group-child
+    spec:
+      containers:
+        - name: cpu-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: "40Mi"
+              cpu: "10m"
+          env:
+            - name: RUN_TYPE
+              value: "memory"
+            - name: MEMORY_NUM
+              value: "10"
