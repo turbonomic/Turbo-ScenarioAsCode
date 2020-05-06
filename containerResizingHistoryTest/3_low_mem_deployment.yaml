@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memory-low-util
+  namespace: history-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memory-low-util
+  template:
+    metadata:
+      labels:
+        app: memory-low-util
+    spec:
+      containers:
+      - name: memory-low-util
+        image: beekman9527/cpumemload:latest
+        resources:
+          limits:
+            memory: 1Gi
+          requests:
+            memory: 10Mi
+        env:
+        - name: RUN_TYPE
+          value: "memory"
+        - name: MEMORY_NUM
+          value: "0.1"
