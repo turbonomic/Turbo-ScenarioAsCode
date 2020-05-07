@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nsquota-test-multi-deployments2
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: nsquota-test-multi-deployments2
+  namespace: nsquota-test-multi-deployments2
+spec:
+  hard:
+    limits.memory: 2200Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-test1
+  namespace: nsquota-test-multi-deployments2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mem-load-group
+  template:
+    metadata:
+      labels:
+        app: mem-load-group
+    spec:
+      containers:
+        - name: mem-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: 500Mi
+            requests:
+              memory: 390Mi
+          env:
+            - name: RUN_TYPE
+              value: "memory"
+            - name: MEMORY_NUM
+              value: "400"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-test2
+  namespace: nsquota-test-multi-deployments2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mem-load-group
+  template:
+    metadata:
+      labels:
+        app: mem-load-group
+    spec:
+      containers:
+        - name: mem-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: 500Mi
+            requests:
+              memory: 390Mi
+          env:
+            - name: RUN_TYPE
+              value: "memory"
+            - name: MEMORY_NUM
+              value: "400"

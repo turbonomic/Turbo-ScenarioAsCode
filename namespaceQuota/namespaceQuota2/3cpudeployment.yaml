@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-test1
+  namespace: nsquota-test-multi-deployments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-30-group-child
+  template:
+    metadata:
+      name: cpu-30-group
+      labels:
+        app: cpu-30-group-child
+    spec:
+      containers:
+        - name: cpu-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: "40Mi"
+              cpu: "10m"
+          env:
+            - name: RUN_TYPE
+              value: "memory"
+            - name: MEMORY_NUM
+              value: "10"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-test2
+  namespace: nsquota-test-multi-deployments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-30-group-child
+  template:
+    metadata:
+      name: cpu-30-group
+      labels:
+        app: cpu-30-group-child
+    spec:
+      containers:
+        - name: cpu-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: "40Mi"
+              cpu: "10m"
+          env:
+            - name: RUN_TYPE
+              value: "memory"
+            - name: MEMORY_NUM
+              value: "10"

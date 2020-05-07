@@ -1,5 +1,5 @@
-# Namespace with Quota
-This scenario creates a namespace with quota, a deployment with limit with CPU traffic.
+# Namespace with Quota Scenario 1
+This scenario creates a namespace with quota, a single deployment with 2 container replicas with limit of CPU traffic.
 
 Expectation: Even though the CPU limit is not enough, the resize should take into account the namespace quota
 
