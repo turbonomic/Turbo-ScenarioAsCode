@@ -1,5 +1,5 @@
 # Namespace with Quota Scenario 3
-This scenario creates a namespace with quota, 2 deployments each of which deploys 2 pod replicas, where each pod replica has one container with limit of CPU traffic.
+This scenario creates a namespace with quota, 2 deployments each of which deploys 2 pod replicas, where each pod replica has one container with limit of memory traffic.
 
 Expectation: The resize should take into account the namespace quota
 
