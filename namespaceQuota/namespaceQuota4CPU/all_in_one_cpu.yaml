@@ -12,7 +12,7 @@ spec:
   hard:
     requests.cpu: "30m"
     requests.memory: 100Mi
-    limits.cpu: "40m"
+    limits.cpu: "30m"
     limits.memory: 150Mi
 ---
 apiVersion: apps/v1
@@ -42,7 +42,7 @@ spec:
             - name: RUN_TYPE
               value: "cpu"
             - name: CPU_PERCENT
-              value: "87"
+              value: "97"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -71,4 +71,4 @@ spec:
             - name: RUN_TYPE
               value: "cpu"
             - name: CPU_PERCENT
-              value: "87"
+              value: "97"
