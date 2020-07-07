@@ -10,9 +10,9 @@ metadata:
   namespace: nsquota-test-cpu-multi-deployments
 spec:
   hard:
-    requests.cpu: "1"
+    requests.cpu: "30m"
     requests.memory: 100Mi
-    limits.cpu: "90m"
+    limits.cpu: "40m"
     limits.memory: 150Mi
 ---
 apiVersion: apps/v1
