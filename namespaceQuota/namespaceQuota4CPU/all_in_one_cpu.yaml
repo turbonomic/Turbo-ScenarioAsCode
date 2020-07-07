@@ -37,12 +37,12 @@ spec:
           resources:
             limits:
               memory: "40Mi"
-              cpu: "15m"
+              cpu: "13m"
           env:
             - name: RUN_TYPE
               value: "cpu"
             - name: CPU_PERCENT
-              value: "97"
+              value: "90"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -66,9 +66,9 @@ spec:
           resources:
             limits:
               memory: "40Mi"
-              cpu: "15m"
+              cpu: "13m"
           env:
             - name: RUN_TYPE
               value: "cpu"
             - name: CPU_PERCENT
-              value: "97"
+              value: "90"
