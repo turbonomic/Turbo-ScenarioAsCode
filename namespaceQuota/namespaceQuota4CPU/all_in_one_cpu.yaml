@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nsquota-test-cpu-multi-deployments
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: nsquota-test-cpu-multi-deployments
+  namespace: nsquota-test-cpu-multi-deployments
+spec:
+  hard:
+    requests.cpu: "30m"
+    requests.memory: 100Mi
+    limits.cpu: "30m"
+    limits.memory: 150Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-quota-test1
+  namespace: nsquota-test-cpu-multi-deployments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-30-group-child
+  template:
+    metadata:
+      name: cpu-30-group
+      labels:
+        app: cpu-30-group-child
+    spec:
+      containers:
+        - name: cpu-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: "40Mi"
+              cpu: "13m"
+          env:
+            - name: RUN_TYPE
+              value: "cpu"
+            - name: CPU_PERCENT
+              value: "95"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quota-test2
+  namespace: nsquota-test-cpu-multi-deployments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-30-group-child
+  template:
+    metadata:
+      name: cpu-30-group
+      labels:
+        app: cpu-30-group-child
+    spec:
+      containers:
+        - name: cpu-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              memory: "40Mi"
+              cpu: "13m"
+          env:
+            - name: RUN_TYPE
+              value: "cpu"
+            - name: CPU_PERCENT
+              value: "95"

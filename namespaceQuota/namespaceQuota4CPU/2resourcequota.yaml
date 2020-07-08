@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: nsquota-test-multi-deployments
+  namespace: nsquota-test-cpu-multi-deployments
+spec:
+  hard:
+    requests.cpu: "1"
+    requests.memory: 100Mi
+    limits.cpu: "90m"
+    limits.memory: 150Mi
