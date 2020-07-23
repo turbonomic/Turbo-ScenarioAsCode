@@ -37,9 +37,9 @@ Each container is under-utilized, so it's expected that Turbo will recommend res
 ![Individual container resizing actions](./screenshots/individual%20container%20resizing%20actions.png)
 
 ### Before action merge improvement
-There are in total 12 individual container resizing actions (the top one in the screenshot above is a merged action on Workload Controller which we'll talk about later). To execute all actions, there would be 12 restarts on the same deployment, which is very disruptive, especially in this scenario where there are 2 pod replicas, and each has 2 containers.
+There are in total 12 individual container resizing actions (the top one in the screenshot above is a merged action on Workload Controller which we'll talk about later). To execute all actions, there would be 6 restarts on each of the 2 pod replicas of this deployment, especially in this scenario where there are 2 containers in the pod, which is very disruptive.
 
 ### After action merge improvement
 All individual container actions are merged onto one deployment:
 ![Merged action on WorkloadController](./screenshots/merged%20action%20on%20workload%20controller.png)
-There will be only one restart on the deployment to make all corresponding changes to set the desired resources on the 2 set of container replicas (`cpu-mem-load` and `cpu-mem-load-test-sidecar`).
+There will be only one restart on each of the 2 pod replicas of this deployment to make all corresponding changes to set the desired resources on the containers (`cpu-mem-load` and `cpu-mem-load-test-sidecar`).
