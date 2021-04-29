@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  metadata:
+  name: mc-auto-stats
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+       app: mc-auto-stats
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mc-auto-stats
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+      containers:
+      - name: mc-auto-stats-spec-1
+        image: irfdocker/powershell:latest
+        command: ["stress.exe"]
+        # the cpuload is in cores
+        # set it wrt the limits and requests for desired results 
+        args: ["cpu", "--cpuload", "0.05", "--duration", "8640000", "--cpucore", "0"]
+        resources:
+          limits:
+            cpu: 400m
+            memory: 1Gi
+          requests:
+            cpu: 300m
+            memory: 768Mi
+      - name: mc-auto-stats-spec-2
+        image: irfdocker/powershell:latest
+        command: ["stress.exe"]
+        args: ["cpu", "--cpuload", ".05", "--duration", "8640000", "--cpucore", "0"]
+        resources:
+          limits:
+            cpu: 200m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+
