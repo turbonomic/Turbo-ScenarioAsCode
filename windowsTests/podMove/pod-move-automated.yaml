@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: automated-pod-move
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: automated-pod-move
+  template:
+    metadata:
+      name: automated-pod-move
+      labels:
+        app: automated-pod-move
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+        kubeturbo: pod-move
+      containers:
+      - name: automated-pod-move-spec
+        image: irfdocker/powershell:latest
+        # Run a script to consume some cpu and some memory
+        command: ["powershell.exe"]
+        args: ["-Command", "foreach ($loopnumber in 1..2) { Start-Job -ScriptBlock { while ($true) { $result = 1; foreach($mm in 1..2147483647){$res1=1;foreach($num in 1..2147483647){$res1=$mm*$num*1340371;Start-Sleep -Milliseconds 3};$res1} } } }; get-job | wait-job"]
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "256Mi"
+          requests:
+            cpu: 1m
+            memory: 1Mi

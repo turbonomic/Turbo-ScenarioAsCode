@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scaling-auto-multiple-up
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: scaling-auto-multiple-up
+  template:
+    metadata:
+      name: scaling-auto-multiple-up
+      labels:
+        app: scaling-auto-multiple-up
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+      containers:
+      - name: scaling-auto-multiple-up-cpu-spec
+        image: irfdocker/powershell:latest
+        command: ["stress.exe"]
+        # the cpuload is in cores
+        # set it wrt the limits and requests for desired results
+        args: ["cpu", "--cpuload", "0.1", "--duration", "8640000", "--cpucore", "0"]
+        resources:
+          limits:
+            cpu: "0.1"
+            memory: "256Mi"
+          requests:
+            cpu: "0.01"
+            memory: "64Mi"
+      - name: scaling-auto-multiple-up-mem-spec
+        image: irfdocker/powershell:latest
+        # refer https://docs.microsoft.com/en-us/sysinternals/downloads/testlimit
+        command: ["testlimit64.exe"]
+        args: ["-accepteula", "-d", "215", "-c", "1"]
+        resources:
+          limits:
+            cpu: "0.1"
+            memory: "250Mi"
+          requests:
+            cpu: "0.01"
+            memory: "100Mi"

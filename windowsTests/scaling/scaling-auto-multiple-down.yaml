@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scaling-auto-multiple-down
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: scaling-auto-multiple-down
+  template:
+    metadata:
+      name: scaling-auto-multiple-down
+      labels:
+        app: scaling-auto-multiple-down
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: windows
+      containers:
+      - name: scaling-auto-multiple-down-spec-1
+        image: irfdocker/powershell:latest
+        command: ["stress.exe"]
+        # the cpuload is in cores
+        # set it wrt the limits and requests for desired results
+        args: ["cpu", "--cpuload", "0.001", "--duration", "8640000", "--cpucore", "0"]
+        resources:
+          limits:
+            cpu: "1.2"
+            memory: "2Gi"
+          requests:
+            cpu: "0.6"
+            memory: "1Gi"
+      - name: scaling-auto-multiple-down-spec-2
+        image: irfdocker/powershell:latest
+        command: ["stress.exe"]
+        # the cpuload is in cores
+        # set it wrt the limits and requests for desired results
+        args: ["cpu", "--cpuload", "0.001", "--duration", "8640000", "--cpucore", "0"]
+        resources:
+          limits:
+            cpu: "0.8"
+            memory: "1Gi"
+          requests:
+            cpu: "0.4"
+            memory: "512Mi"
