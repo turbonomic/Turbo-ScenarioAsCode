@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: quotatest4
+  name: container-up-sufficient-quota
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: quotatest4
-  namespace: quotatest4
+  name: container-up-sufficient-quota
+  namespace: container-up-sufficient-quota
 spec:
   hard:
     limits.cpu: "5000m"
@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cpu-resize-up
-  namespace: quotatest4
+  namespace: container-up-sufficient-quota
 spec:
   replicas: 1
   selector:

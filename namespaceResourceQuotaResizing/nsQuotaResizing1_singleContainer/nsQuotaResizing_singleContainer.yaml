@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: quotatest1
+  name: quotatest-single-container
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: quotatest1
-  namespace: quotatest1
+  name: quotatest-single-container
+  namespace: quotatest-single-container
 spec:
   hard:
     limits.cpu: "100m"
@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cpu-resize-up
-  namespace: quotatest1
+  namespace: quotatest-single-container
 spec:
   replicas: 1
   selector:

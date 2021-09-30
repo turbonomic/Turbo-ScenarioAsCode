@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: quotatest3
+  name: quotatest-up-and-down
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: quotatest3
-  namespace: quotatest3
+  name: quotatest-up-and-down
+  namespace: quotatest-up-and-down
 spec:
   hard:
     limits.cpu: "1000m"
@@ -16,7 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cpu-resize-up
-  namespace: quotatest3
+  namespace: quotatest-up-and-down
 spec:
   replicas: 1
   selector:
@@ -46,7 +46,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cpu-resize-down
-  namespace: quotatest3
+  namespace: quotatest-up-and-down
 spec:
   replicas: 1
   selector:

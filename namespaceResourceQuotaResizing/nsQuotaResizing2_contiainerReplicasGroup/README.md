@@ -20,5 +20,5 @@ ContainerSpec:
 - With namespace reisizing support, we'll generate following actions:
 ```
 - Resize namespace from 100m to 200m
-- Resize container from 10m to 100m (not executable)
+- Resize both containers from 10m to 100m (not executable)
 ```
