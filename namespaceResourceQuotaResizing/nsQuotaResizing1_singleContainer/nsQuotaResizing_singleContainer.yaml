@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quotatest-single-container
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quotatest-single-container
+  namespace: quotatest-single-container
+spec:
+  hard:
+    limits.cpu: "100m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-resize-up
+  namespace: quotatest-single-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-resize-up
+  template:
+    metadata:
+      name: cpu-resize-up
+      labels:
+        app: cpu-resize-up
+    spec:
+      containers:
+        - name: cpu-load
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              cpu: "10m"
+          env:
+            - name: RUN_TYPE
+              value: cpu
+            - name: CPU_PERCENT
+              value: "100"

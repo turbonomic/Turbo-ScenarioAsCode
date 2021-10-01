@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quotatest-up-and-down
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quotatest-up-and-down
+  namespace: quotatest-up-and-down
+spec:
+  hard:
+    limits.cpu: "1000m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-resize-up
+  namespace: quotatest-up-and-down
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-resize-up
+  template:
+    metadata:
+      name: cpu-resize-up
+      labels:
+        app: cpu-resize-up
+    spec:
+      containers:
+        - name: cpu-resize-up
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              cpu: "500m"
+            requests:
+              cpu: "100m"
+          env:
+            - name: RUN_TYPE
+              value: cpu
+            - name: CPU_PERCENT
+              value: "90"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-resize-down
+  namespace: quotatest-up-and-down
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-resize-down
+  template:
+    metadata:
+      name: cpu-resize-down
+      labels:
+        app: cpu-resize-down
+    spec:
+      containers:
+        - name: cpu-resize-down
+          image: beekman9527/cpumemload:latest
+          resources:
+            limits:
+              cpu: "500m"
+            requests:
+              cpu: "100m"
+          env:
+            - name: RUN_TYPE
+              value: cpu
+            - name: CPU_PERCENT
+              value: "1"
