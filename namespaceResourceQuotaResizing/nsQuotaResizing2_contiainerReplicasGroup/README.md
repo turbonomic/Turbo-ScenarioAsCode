@@ -19,6 +19,6 @@ ContainerSpec:
 - Without resizing up namespace CPU limit quota, although one single container resizing up to 100m is allowed, 2 container replicas resizing up is not permitted due to the quota constraint.
 - With namespace reisizing support, we'll generate following actions:
 ```
-- Resize namespace from 100m to 200m
+- Resize namespace from 150m to 200m
 - Resize both containers from 10m to 100m (not executable)
 ```
