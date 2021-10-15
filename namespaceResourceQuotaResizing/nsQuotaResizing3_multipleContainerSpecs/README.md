@@ -14,7 +14,7 @@ Namespace:
 - ContainerSpec2:
     - Container:
         - CPU limit: 500m
-        - Desired CPU limit from Turbo analysis: 300m
+        - Desired CPU limit from Turbo analysis: 200m
 ```
 
 - With namespace reisizing support, 
