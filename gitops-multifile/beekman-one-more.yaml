@@ -24,7 +24,7 @@ spec:
         - name: RUN_TYPE
           value: "cpu"
         - name: CPU_PERCENT
-          value: "1"
+          value: "95"
         resources:
           requests:
             memory: "10Mi"
