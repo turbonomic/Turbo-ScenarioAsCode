@@ -1,12 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    turbonomic.io/gitops-branch: master
-    turbonomic.io/gitops-file-path: changeRequest-test/beekman-orig.yaml
-    turbonomic.io/gitops-secret-name: github-credentials
-    turbonomic.io/gitops-secret-namespace: default
-    turbonomic.io/gitops-source: https://github.com/irfanurrehman/Turbo-ScenarioAsCode
   labels:
     app: bee
   name: beekman-change-reconciler
@@ -31,7 +25,24 @@ spec:
         name: beekman-1
         resources:
           limits:
-            cpu: 100m
+            cpu: 11m
+            memory: 28Mi
+          requests:
+            cpu: 10m
+            memory: 10Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - env:
+        - name: RUN_TYPE
+          value: cpu
+        - name: CPU_PERCENT
+          value: "95"
+        image: beekman9527/cpumemload:latest
+        imagePullPolicy: Always
+        name: beekman-2
+        resources:
+          limits:
+            cpu: 11m
             memory: 28Mi
           requests:
             cpu: 10m
